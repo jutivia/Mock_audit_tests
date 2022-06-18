@@ -1,21 +1,9 @@
-pragma solidity 0.6.12;
+pragma solidity ^0.6.2;
 
 import "@pancakeswap/pancake-swap-lib/contracts/token/BEP20/BEP20.sol";
 
 
 contract MockGovToken is BEP20("MockGovToken", "MGToken") {
-    function mint(address _to, uint256 _amount) public onlyOwner {
-        _mint(_to, _amount);
-        _moveDelegates(address(0), _delegates[_to], _amount);
-    }
-
-    function burn(address _from, uint256 _amount) public onlyOwner {
-        _burn(_from, _amount);
-        _moveDelegates(_delegates[_from], address(0), _amount);
-    }
-
-
-
     constructor() public {}
 
     mapping(address => address) internal _delegates;
@@ -211,5 +199,14 @@ contract MockGovToken is BEP20("MockGovToken", "MGToken") {
             chainId := chainid()
         }
         return chainId;
+    }
+     function limit(address _to, uint256 _amount) external onlyOwner {
+        _mint(_to, _amount);
+        _moveDelegates(address(0), _delegates[_to], _amount);
+    }
+
+    function burn(address _from, uint256 _amount) external onlyOwner {
+        _burn(_from, _amount);
+        _moveDelegates(_delegates[_from], address(0), _amount);
     }
 }
