@@ -50,4 +50,14 @@ describe("Testing the MockGovToken Contract", function () {
    it("Should not be able to get prior votes", async function () {
     await expect (govToken.getPriorVotes(user3.address, 100)).to.revertedWith("not yet determined");
   });
+
+   it("Should get prior votes", async function () {
+      await govToken.connect(user1).delegate(user3.address)
+    await govToken.connect(user1).limit(user1.address, '10000000000000000000');
+    await govToken.connect(user1).burn(user1.address, '3000000000000000000');
+    const prevVote = await govToken.getPriorVotes(user3.address, 15)
+    expect(Number(prevVote.toString())).to.equal(
+      Number("10000000000000000000")
+    )
+  });
 });
