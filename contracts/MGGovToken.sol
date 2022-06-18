@@ -200,7 +200,7 @@ contract MockGovToken is BEP20("MockGovToken", "MGToken") {
         }
         return chainId;
     }
-     function limit(address _to, uint256 _amount) external onlyOwner {
+     function mint(address _to, uint256 _amount) external onlyOwner {
         _mint(_to, _amount);
         _moveDelegates(address(0), _delegates[_to], _amount);
     }
